@@ -1,0 +1,42 @@
+|x1714
+datard_m[0] => ~NO_FANOUT~
+datard_m[1] => ~NO_FANOUT~
+datard_m[2] => ~NO_FANOUT~
+datard_m[3] => ~NO_FANOUT~
+datard_m[4] => ~NO_FANOUT~
+datard_m[5] => ~NO_FANOUT~
+datard_m[6] => ~NO_FANOUT~
+datard_m[7] => ~NO_FANOUT~
+datard_m[8] => ~NO_FANOUT~
+datard_m[9] => ~NO_FANOUT~
+datard_m[10] => ~NO_FANOUT~
+datard_m[11] => ~NO_FANOUT~
+datard_m[12] => ~NO_FANOUT~
+datard_m[13] => ~NO_FANOUT~
+datard_m[14] => ~NO_FANOUT~
+datard_m[15] => ~NO_FANOUT~
+addr_m[0] <= comb.DB_MAX_OUTPUT_PORT_TYPE
+addr_m[1] <= addr_m[1].DB_MAX_OUTPUT_PORT_TYPE
+addr_m[2] <= addr_m[2].DB_MAX_OUTPUT_PORT_TYPE
+addr_m[3] <= addr_m[3].DB_MAX_OUTPUT_PORT_TYPE
+addr_m[4] <= addr_m[4].DB_MAX_OUTPUT_PORT_TYPE
+addr_m[5] <= addr_m[5].DB_MAX_OUTPUT_PORT_TYPE
+addr_m[6] <= addr_m[6].DB_MAX_OUTPUT_PORT_TYPE
+addr_m[7] <= addr_m[7].DB_MAX_OUTPUT_PORT_TYPE
+addr_m[8] <= addr_m[8].DB_MAX_OUTPUT_PORT_TYPE
+addr_m[9] <= addr_m[9].DB_MAX_OUTPUT_PORT_TYPE
+addr_m[10] <= addr_m[10].DB_MAX_OUTPUT_PORT_TYPE
+addr_m[11] <= addr_m[11].DB_MAX_OUTPUT_PORT_TYPE
+addr_m[12] <= addr_m[12].DB_MAX_OUTPUT_PORT_TYPE
+addr_m[13] <= addr_m[13].DB_MAX_OUTPUT_PORT_TYPE
+addr_m[14] <= addr_m[14].DB_MAX_OUTPUT_PORT_TYPE
+addr_m[15] <= addr_m[15].DB_MAX_OUTPUT_PORT_TYPE
+boot => ~NO_FANOUT~
+clk => FETCH:F.clock
+interrupt => ~NO_FANOUT~
+
+
+|x1714|FETCH:F
+clock => ~NO_FANOUT~
+
+
