@@ -19,12 +19,27 @@ ARCHITECTURE Structure OF x1714 IS
 	PORT (clock : IN	STD_LOGIC);
 	END COMPONENT;
 	
+	COMPONENT FETCH_DECODE1
+	PORT (clock : IN	STD_LOGIC);
+	END COMPONENT;
+	
+	COMPONENT DECODE1
+	PORT (clock : IN	STD_LOGIC);
+	END COMPONENT;
+
+	
 	
 BEGIN
 	-- Aqui iria la declaracion del "mapeo" (PORT MAP) de los nombres de las entradas/salidas de los componentes
 	-- En los esquemas de la documentacion a la instancia del DATAPATH le hemos llamado e0 y a la de la unidad de control le hemos llamado c0
 	
 	F: FETCH
+	PORT MAP(clock => clk );
+	
+	F_D1: FETCH_DECODE1
+	PORT MAP(clock => clk );
+	
+	D1: DECODE1
 	PORT MAP(clock => clk );
 	
 	
