@@ -15,6 +15,10 @@ ARCHITECTURE Structure OF x1714 IS
 	-- Aqui iria la declaracion de las entidades que vamos a usar 
 	-- Usaremos la palabra reservada COMPONENT ...
 	-- Tambien crearemos los cables/buses (signals) necesarios para unir las entidades
+	
+	--Los modulos se nombraran de la siguiente forma: (en Mayusuuculas las etapas) 
+	-- nombre del fichero/componente = nombre completo
+	-- nombre de la instaciacion en otro nivel = nombre abreviado
 	COMPONENT FETCH
 	PORT (clock : IN	STD_LOGIC;
 			inst  : OUT STD_LOGIC_VECTOR(15 DOWNTO 0));
@@ -31,6 +35,7 @@ ARCHITECTURE Structure OF x1714 IS
 			inst  : IN STD_LOGIC_VECTOR(15 DOWNTO 0));
 	END COMPONENT;
 
+	-- Las señales auxiliares para conectar los modulos se nombraran de la siguiente forma: $nombresignal$etapafuente_$estapadestino
 	signal instf_fd1 : STD_LOGIC_VECTOR(15 DOWNTO 0);
 	signal instfd1_d1 : STD_LOGIC_VECTOR(15 DOWNTO 0);
 	
