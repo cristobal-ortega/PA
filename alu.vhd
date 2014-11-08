@@ -7,7 +7,6 @@ ENTITY alu IS
 			y  : IN	STD_LOGIC_VECTOR(15 DOWNTO 0);
 			w  : OUT	STD_LOGIC_VECTOR(15 DOWNTO 0);
 			op : IN	STD_LOGIC);
-);
 END alu;
 
 
