@@ -15,22 +15,22 @@ datard_m[12] => ~NO_FANOUT~
 datard_m[13] => ~NO_FANOUT~
 datard_m[14] => ~NO_FANOUT~
 datard_m[15] => ~NO_FANOUT~
-addr_m[0] <= comb.DB_MAX_OUTPUT_PORT_TYPE
-addr_m[1] <= addr_m[1].DB_MAX_OUTPUT_PORT_TYPE
-addr_m[2] <= addr_m[2].DB_MAX_OUTPUT_PORT_TYPE
-addr_m[3] <= addr_m[3].DB_MAX_OUTPUT_PORT_TYPE
-addr_m[4] <= addr_m[4].DB_MAX_OUTPUT_PORT_TYPE
-addr_m[5] <= addr_m[5].DB_MAX_OUTPUT_PORT_TYPE
-addr_m[6] <= addr_m[6].DB_MAX_OUTPUT_PORT_TYPE
-addr_m[7] <= addr_m[7].DB_MAX_OUTPUT_PORT_TYPE
-addr_m[8] <= addr_m[8].DB_MAX_OUTPUT_PORT_TYPE
-addr_m[9] <= addr_m[9].DB_MAX_OUTPUT_PORT_TYPE
-addr_m[10] <= addr_m[10].DB_MAX_OUTPUT_PORT_TYPE
-addr_m[11] <= addr_m[11].DB_MAX_OUTPUT_PORT_TYPE
-addr_m[12] <= addr_m[12].DB_MAX_OUTPUT_PORT_TYPE
-addr_m[13] <= addr_m[13].DB_MAX_OUTPUT_PORT_TYPE
-addr_m[14] <= addr_m[14].DB_MAX_OUTPUT_PORT_TYPE
-addr_m[15] <= addr_m[15].DB_MAX_OUTPUT_PORT_TYPE
+addr_m[0] << <GND>
+addr_m[1] << <GND>
+addr_m[2] << <GND>
+addr_m[3] << <GND>
+addr_m[4] << <GND>
+addr_m[5] << <GND>
+addr_m[6] << <GND>
+addr_m[7] << <GND>
+addr_m[8] << <GND>
+addr_m[9] << <GND>
+addr_m[10] << <GND>
+addr_m[11] << <GND>
+addr_m[12] << <GND>
+addr_m[13] << <GND>
+addr_m[14] << <GND>
+addr_m[15] << <GND>
 boot => ~NO_FANOUT~
 clk => FETCH:F.clock
 clk => FETCH_DECODE1:F_D1.clock
@@ -40,13 +40,77 @@ interrupt => ~NO_FANOUT~
 
 |x1714|FETCH:F
 clock => ~NO_FANOUT~
+inst[0] <= <GND>
+inst[1] <= <GND>
+inst[2] <= <GND>
+inst[3] <= <GND>
+inst[4] <= <GND>
+inst[5] <= <GND>
+inst[6] <= <GND>
+inst[7] <= <GND>
+inst[8] <= <GND>
+inst[9] <= <GND>
+inst[10] <= <GND>
+inst[11] <= <GND>
+inst[12] <= <GND>
+inst[13] <= <GND>
+inst[14] <= <GND>
+inst[15] <= <GND>
 
 
 |x1714|FETCH_DECODE1:F_D1
 clock => ~NO_FANOUT~
+inst_in[0] => ~NO_FANOUT~
+inst_in[1] => ~NO_FANOUT~
+inst_in[2] => ~NO_FANOUT~
+inst_in[3] => ~NO_FANOUT~
+inst_in[4] => ~NO_FANOUT~
+inst_in[5] => ~NO_FANOUT~
+inst_in[6] => ~NO_FANOUT~
+inst_in[7] => ~NO_FANOUT~
+inst_in[8] => ~NO_FANOUT~
+inst_in[9] => ~NO_FANOUT~
+inst_in[10] => ~NO_FANOUT~
+inst_in[11] => ~NO_FANOUT~
+inst_in[12] => ~NO_FANOUT~
+inst_in[13] => ~NO_FANOUT~
+inst_in[14] => ~NO_FANOUT~
+inst_in[15] => ~NO_FANOUT~
+inst_out[0] <= <GND>
+inst_out[1] <= <GND>
+inst_out[2] <= <GND>
+inst_out[3] <= <GND>
+inst_out[4] <= <GND>
+inst_out[5] <= <GND>
+inst_out[6] <= <GND>
+inst_out[7] <= <GND>
+inst_out[8] <= <GND>
+inst_out[9] <= <GND>
+inst_out[10] <= <GND>
+inst_out[11] <= <GND>
+inst_out[12] <= <GND>
+inst_out[13] <= <GND>
+inst_out[14] <= <GND>
+inst_out[15] <= <GND>
 
 
 |x1714|DECODE1:D1
 clock => ~NO_FANOUT~
+inst[0] => ~NO_FANOUT~
+inst[1] => ~NO_FANOUT~
+inst[2] => ~NO_FANOUT~
+inst[3] => ~NO_FANOUT~
+inst[4] => ~NO_FANOUT~
+inst[5] => ~NO_FANOUT~
+inst[6] => ~NO_FANOUT~
+inst[7] => ~NO_FANOUT~
+inst[8] => ~NO_FANOUT~
+inst[9] => ~NO_FANOUT~
+inst[10] => ~NO_FANOUT~
+inst[11] => ~NO_FANOUT~
+inst[12] => ~NO_FANOUT~
+inst[13] => ~NO_FANOUT~
+inst[14] => ~NO_FANOUT~
+inst[15] => ~NO_FANOUT~
 
 

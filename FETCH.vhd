@@ -2,7 +2,8 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 
 ENTITY FETCH IS 
-	PORT (clock : IN	STD_LOGIC);
+	PORT (clock : IN	STD_LOGIC;
+			inst  : OUT STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000");
 
 END FETCH;
 
