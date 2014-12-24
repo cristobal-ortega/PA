@@ -32,12 +32,61 @@ ARCHITECTURE Structure OF x1714 IS
 	
 	COMPONENT DECODE1
 	PORT (clock : IN	STD_LOGIC;
-			inst  : IN STD_LOGIC_VECTOR(15 DOWNTO 0));
+			inst  : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+			regwrite : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+			op		: OUT STD_LOGIC_VECTOR(3 DOWNTO 0));
+	END COMPONENT;
+	
+	COMPONENT DECODE1_EXECUTION1
+	PORT (clock : IN	STD_LOGIC;
+			op_in  : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			op_out : OUT STD_LOGIC_VECTOR(3 DOWNTO 0));
+	END COMPONENT;
+	
+	COMPONENT EXECUTION1
+	PORT (clock : IN	STD_LOGIC;
+			op    : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			w		: OUT STD_LOGIC_VECTOR(15 DOWNTO 0));
+	END COMPONENT;
+	
+	COMPONENT EXECUTION1_MEMORY1
+	PORT (clock : IN	STD_LOGIC;
+			w_in		: IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+			w_out		: OUT STD_LOGIC_VECTOR(15 DOWNTO 0));
+	END COMPONENT;
+	
+	COMPONENT MEMORY1
+	PORT (clock : IN	STD_LOGIC;
+			w		: IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+			data 	: OUT STD_LOGIC_VECTOR(15 DOWNTO 0));
+	END COMPONENT;
+	
+	COMPONENT MEMORY1_WRITEBACK
+	PORT (clock : IN	STD_LOGIC;
+			data_in  : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+			data_out	: OUT STD_LOGIC_VECTOR(15 DOWNTO 0));
+	END COMPONENT;
+	
+	COMPONENT WRITEBACK
+	PORT (clock : IN	STD_LOGIC;
+			data   : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+			regwrite : OUT STD_LOGIC_VECTOR(15 DOWNTO 0));
 	END COMPONENT;
 
 	-- Las señales auxiliares para conectar los modulos se nombraran de la siguiente forma: $nombresignal$etapafuente_$estapadestino
 	signal instf_fd1 : STD_LOGIC_VECTOR(15 DOWNTO 0);
 	signal instfd1_d1 : STD_LOGIC_VECTOR(15 DOWNTO 0);
+	
+	signal opd1_d1e1	: STD_LOGIC_VECTOR(3 DOWNTO 0);
+	signal opd1e1_e1	: STD_LOGIC_VECTOR(3 DOWNTO 0);
+	
+	signal we1_e1m1	: STD_LOGIC_VECTOR(15 DOWNTO 0);
+	signal we1m1_m1	: STD_LOGIC_VECTOR(15 DOWNTO 0);
+	
+	signal datam1_m1w1 : STD_LOGIC_VECTOR(15 DOWNTO 0);
+	signal datam1w1_w1 : STD_LOGIC_VECTOR(15 DOWNTO 0);
+	
+	signal regwritew_d1 : STD_LOGIC_VECTOR(15 DOWNTO 0);
 	
 BEGIN
 	-- Aqui iria la declaracion del "mapeo" (PORT MAP) de los nombres de las entradas/salidas de los componentes
@@ -54,7 +103,38 @@ BEGIN
 	
 	D1: DECODE1
 	PORT MAP(clock => clk,
-				inst => instfd1_d1);
+				inst => instfd1_d1,
+				regwrite => regwritew_d1,
+				op => opd1_d1e1);
+				
+	D1_E1: DECODE1_EXECUTION1
+	PORT MAP(clock => clk,
+				op_in => opd1_d1e1,
+				op_out => opd1e1_e1);
 	
-	
+	E1: EXECUTION1
+	PORT MAP(clock => clk,
+				op => opd1e1_e1,
+				w => we1_e1m1);
+				
+	E1_M1: EXECUTION1_MEMORY1
+	PORT MAP(clock => clk,
+				w_in => we1_e1m1,
+				w_out => we1m1_m1);
+				
+	M1: MEMORY1
+	PORT MAP(clock => clk,
+				w => we1m1_m1,
+				data => datam1_m1w1);
+				
+	M1_W: MEMORY1_WRITEBACK
+	PORT MAP(clock => clk,
+				data_in => datam1_m1w1,
+				data_out => datam1w1_w1);
+				
+	W: WRITEBACK
+	PORT MAP(clock => clk,
+				data => datam1w1_w1,
+				regwrite => regwritew_d1);
+				
 END Structure;

@@ -3,7 +3,9 @@ USE ieee.std_logic_1164.all;
 
 ENTITY DECODE1 IS 
 	PORT (clock : IN	STD_LOGIC;
-			inst  : IN STD_LOGIC_VECTOR(15 DOWNTO 0));
+			inst  : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+			regwrite	: IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+			op		: OUT STD_LOGIC_VECTOR(3 DOWNTO 0));
 
 END DECODE1;
 
