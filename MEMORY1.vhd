@@ -12,4 +12,5 @@ END MEMORY1;
 ARCHITECTURE Structure OF MEMORY1 IS
 BEGIN
 
+	data <= w;
 END Structure;

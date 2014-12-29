@@ -11,5 +11,5 @@ END WRITEBACK;
 
 ARCHITECTURE Structure OF WRITEBACK IS
 BEGIN
-
+	regwrite <= data;
 END Structure;
