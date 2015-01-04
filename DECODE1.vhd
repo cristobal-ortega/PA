@@ -35,7 +35,7 @@ BEGIN
 	PROCESS(clock)
 	BEGIN
 		IF clock = '0' AND e_write = '1' THEN
-			reg_bank(CONV_INTEGER(regaddr) <= regwrite;
+			reg_bank(CONV_INTEGER(regaddr)) <= regwrite;
 		END IF;
 	END PROCESS;
 
