@@ -8,9 +8,20 @@ ENTITY suchProcessor IS
 				clk		: IN	STD_LOGIC;
 				interrupt: IN  STD_LOGIC;
 				stall_stage : IN STD_LOGIC := '0';
-				fill_m : IN STD_LOGIC := '0';
 				
-
+				instF3 : OUT STD_LOGIC_VECTOR(3 DOWNTO 0); --structural hazards =)
+				instD : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);	
+			
+				regSRCs : OUT STD_LOGIC_VECTOR(15 DOWNTO 0); --data hazards =)
+				regDST_E: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+				regDST_C : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+				regDST_F1 : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+				regDST_F2 : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+				regDST_F3 : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+				regDST_F4 : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+				regDST_F5 : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+				
+				
 				request_m : OUT STD_LOGIC := '0'
 				
 			
@@ -27,8 +38,15 @@ ARCHITECTURE Structure OF suchProcessor IS
 	-- nombre del fichero/componente = nombre completo
 	-- nombre de la instaciacion en otro nivel = nombre abreviado
 	COMPONENT FETCH
-	PORT (clock : IN	STD_LOGIC;
-			inst  : OUT STD_LOGIC_VECTOR(15 DOWNTO 0));
+	PORT (
+			clock : IN	STD_LOGIC;
+			w	 : IN STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
+			z : IN STD_LOGIC;
+			instr_jmp : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			hit 	: OUT STD_LOGIC;
+			inst  : OUT STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
+			pc_out : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+			);
 	END COMPONENT;
 	
 	COMPONENT FETCH_DECODE1
@@ -36,6 +54,7 @@ ARCHITECTURE Structure OF suchProcessor IS
 			stall: IN STD_LOGIC;
 			inst_in  : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 			inst_out  : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+			pc_in : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 			pc_out : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
 			
 			);
@@ -94,7 +113,9 @@ ARCHITECTURE Structure OF suchProcessor IS
 			op  : IN STD_LOGIC_VECTOR(3 DOWNTO 0) := "0000";
 			a : IN STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 			b : IN STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
-			w	 : OUT STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000");
+			w	 : OUT STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
+			z : OUT STD_LOGIC
+			);
 	END COMPONENT;
 	
 	COMPONENT EXECUTION1_MEMORY1
@@ -124,7 +145,8 @@ ARCHITECTURE Structure OF suchProcessor IS
 			instr_in : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			op_in : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			w 		 : IN STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
-			data	 : OUT STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000"
+			data	 : OUT STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
+			request	 : OUT STD_LOGIC := '0'
 			
 			);
 	END COMPONENT;
@@ -300,6 +322,8 @@ ARCHITECTURE Structure OF suchProcessor IS
 	signal instfd1_d1 : STD_LOGIC_VECTOR(15 DOWNTO 0);
 	signal pc_F_FD : STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 	
+	signal z_E : STD_LOGIC;
+	signal hit_fetch : STD_LOGIC;
 	signal pc_FD_D : STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 	
 	signal e_writeBR_in : STD_LOGIC;
@@ -455,11 +479,35 @@ ARCHITECTURE Structure OF suchProcessor IS
 	--signal stall_stage : STD_LOGIC := '0'; -- Stall el pipeline
 	
 BEGIN
+
+	
+				
+	instF3 <= inst_F2F3_F3;
+	instD <= inst_D_DE;
+			
+	regSRCs<= instfd1_d1;
+	regDST_E <= regDST_DE_E;
+	regDST_C <= regDST_EM_M;
+	regDST_F1 <= regDST_DE_E;
+	regDST_F2 <= rDST_F1F2_F2;
+	regDST_F3 <= rDST_F2F3_F3;
+	regDST_F4 <= rDST_F3F4_F4;
+	regDST_F5 <= rDST_F5W_W;
+			
+			
+	
 	-- Aqui iria la declaracion del "mapeo" (PORT MAP) de los nombres de las entradas/salidas de los componentes
 	-- En los esquemas de la documentacion a la instancia del DATAPATH le hemos llamado e0 y a la de la unidad de control le hemos llamado c0
+
+
+	
 	
 	F: FETCH
 	PORT MAP(clock => clk,
+				w => w_E_EM,
+				z => z_E,
+				instr_jmp => inst_DE_E,
+				hit => hit_fetch,
 				inst => instf_fd1,
 				pc_out => pc_F_FD
 				);
@@ -520,7 +568,8 @@ BEGIN
 				op => op_DE_E,
 				a => a_DE_E, 
 				b => b_DE_E,
-				w => w_E_EM
+				w => w_E_EM,
+				z => z_E
 				);
 				
 	E1_M1: EXECUTION1_MEMORY1
@@ -550,7 +599,8 @@ BEGIN
 			op_in => op_EM_M,
 			w => w_EM_M,
 			
-			data => data_M_MW
+			data => data_M_MW,
+			request => request_m
 			
 			);
 				
