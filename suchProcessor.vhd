@@ -6,7 +6,13 @@ ENTITY suchProcessor IS
 				addr_m	: OUT	STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000" ;
 				boot		: IN	STD_LOGIC;
 				clk		: IN	STD_LOGIC;
-				interrupt: IN  STD_LOGIC
+				interrupt: IN  STD_LOGIC;
+				stall_stage : IN STD_LOGIC := '0';
+				fill_m : IN STD_LOGIC := '0';
+				
+
+				request_m : OUT STD_LOGIC := '0'
+				
 			
 			);
 END suchProcessor;
@@ -440,7 +446,7 @@ ARCHITECTURE Structure OF suchProcessor IS
 	
 	
 	-- Señales para el control: $nombresignal_stage
-	signal stall_stage : STD_LOGIC := '0'; -- Stall el pipeline
+	--signal stall_stage : STD_LOGIC := '0'; -- Stall el pipeline
 	
 BEGIN
 	-- Aqui iria la declaracion del "mapeo" (PORT MAP) de los nombres de las entradas/salidas de los componentes
