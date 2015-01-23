@@ -6,7 +6,9 @@ ENTITY suchProcessor IS
 				addr_m	: OUT	STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000" ;
 				boot		: IN	STD_LOGIC;
 				clk		: IN	STD_LOGIC;
-				interrupt: IN  STD_LOGIC);
+				interrupt: IN  STD_LOGIC
+			
+			);
 END suchProcessor;
 
 ARCHITECTURE Structure OF suchProcessor IS
