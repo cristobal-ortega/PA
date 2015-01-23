@@ -8,6 +8,7 @@ ENTITY DECODE1 IS
 			e_writeBR : IN STD_LOGIC; -- Permision to write in the register bank
 			e_writeBR_long : IN STD_LOGIC; -- Permision to write in the register bank
 			regDST : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			regDST_long : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			inst  : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 			w	: IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 			
@@ -32,7 +33,8 @@ ARCHITECTURE Structure OF DECODE1 IS
 BEGIN
 	op <= inst(15 DOWNTO 12);
 	a <= reg_bank(CONV_INTEGER(inst(11 DOWNTO 8))); 
-	b <= reg_bank(CONV_INTEGER(inst(7 DOWNTO 4))); 
+	b <= reg_bank(CONV_INTEGER(inst(7 DOWNTO 4)));
+		regDST_out <= inst(3 DOWNTO 0);
 	WITH inst(15 DOWNTO 12) SELECT e_writeBR_out <= 
 													'1' WHEN "0100", --add
 													'1' WHEN "0101", --sub

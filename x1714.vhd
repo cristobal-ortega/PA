@@ -35,6 +35,7 @@ ARCHITECTURE Structure OF x1714 IS
 			e_writeBR : IN STD_LOGIC; -- Permision to write in the register bank
 			e_writeBR_long : IN STD_LOGIC; -- Permision to write in the register bank
 			regDST : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			regDST_long : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			inst  : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 			w	: IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 			
@@ -455,9 +456,10 @@ BEGIN
 	
 	D1: DECODE1
 	PORT MAP(clock => clk,
-			e_writeBR => e_writeBR_W_D,
-			e_writeBR_long => e_writeBR_long_W_D,
+			e_writeBR => e_writeBR_MW_W,
+			e_writeBR_long => e_writeBR_F5W_W,
 			regDST => regDST_MW_W,
+			regDST_long => rDST_F5W_W,
 			inst => instfd1_d1,
 			w => w_W_D,
 			
@@ -479,7 +481,7 @@ BEGIN
 			e_writeBR_long_in => ewriteBR_long_D_DE,
 			op_in => op_D_DE,
 			a_in => a_D_DE,
-			b_in => a_D_DE,
+			b_in => b_D_DE,
 			regDST_in => regDST_D_DE,
 			PC_in => PC_D_DE,
 			inst_in => inst_D_DE,
@@ -558,6 +560,7 @@ BEGIN
 				data_long => wF5W_W,
 				e_writeBR_in => e_writeBR_MW_W,
 				e_writeBR_long_in => e_writeBR_F5W_W,
+				e_writeBR_out => e_writeBR_W_D,
 				w => w_W_D
 				);				
 			
