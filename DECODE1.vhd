@@ -9,6 +9,7 @@ ENTITY DECODE1 IS
 			e_writeBR_long : IN STD_LOGIC; -- Permision to write in the register bank
 			regDST : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			regDST_long : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			pc_in : IN STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 			inst  : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 			w	: IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 			w_long	: IN STD_LOGIC_VECTOR(15 DOWNTO 0);
@@ -57,6 +58,7 @@ BEGIN
 			END IF;
 			IF e_writeBR_long = '1' THEN
 				reg_bank(CONV_INTEGER(regDST_long)) <= w_long;
+			END IF;
 		END IF;
 	END PROCESS;
 

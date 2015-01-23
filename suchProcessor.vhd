@@ -35,7 +35,10 @@ ARCHITECTURE Structure OF suchProcessor IS
 	PORT (clock : IN	STD_LOGIC;
 			stall: IN STD_LOGIC;
 			inst_in  : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-			inst_out  : OUT STD_LOGIC_VECTOR(15 DOWNTO 0));
+			inst_out  : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+			pc_out : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+			
+			);
 	END COMPONENT;
 	
 	COMPONENT DECODE1
@@ -295,8 +298,10 @@ ARCHITECTURE Structure OF suchProcessor IS
 	-- Las señales auxiliares para conectar los modulos se nombraran de la siguiente forma: $nombresignal$etapafuente_$estapadestino
 	signal instf_fd1 : STD_LOGIC_VECTOR(15 DOWNTO 0);
 	signal instfd1_d1 : STD_LOGIC_VECTOR(15 DOWNTO 0);
+	signal pc_F_FD : STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 	
-		
+	signal pc_FD_D : STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
+	
 	signal e_writeBR_in : STD_LOGIC;
 	signal op_in		: STD_LOGIC_VECTOR(3 DOWNTO 0) := "0000";
 	signal a_in : STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
@@ -455,13 +460,18 @@ BEGIN
 	
 	F: FETCH
 	PORT MAP(clock => clk,
-				inst => instf_fd1);
+				inst => instf_fd1,
+				pc_out => pc_F_FD
+				);
 	
 	F_D1: FETCH_DECODE1
 	PORT MAP(clock => clk,
 				stall => stall_stage,
 				inst_in => instf_fd1,
-				inst_out => instfd1_d1);
+				inst_out => instfd1_d1,
+				pc_in => pc_F_FD,
+				pc_out => pc_FD_D
+				);
 	
 	D1: DECODE1
 	PORT MAP(clock => clk,
@@ -493,7 +503,7 @@ BEGIN
 			a_in => a_D_DE,
 			b_in => b_D_DE,
 			regDST_in => regDST_D_DE,
-			PC_in => PC_D_DE,
+			PC_in => pc_FD_D,
 			inst_in => inst_D_DE,
 			
 			e_writeBR_out => e_writeBR_DE_E,

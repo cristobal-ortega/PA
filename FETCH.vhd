@@ -5,7 +5,10 @@ USE ieee.numeric_std.all;
 ENTITY FETCH IS 
 	PORT (clock : IN	STD_LOGIC;
 			hit 	: OUT STD_LOGIC;
-			inst  : OUT STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000");
+			inst  : OUT STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
+			pc_out : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+			
+			);
 
 END FETCH;
 
@@ -36,6 +39,7 @@ BEGIN
 				addr => pc,
 				hit => hit);
 
+	pc_out <= pc;
 	PROCESS(clock)
 	BEGIN
 		IF(RISING_EDGE(clock)) THEN
