@@ -1,15 +1,15 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 
-ENTITY x1714 IS 
+ENTITY suchProcessor IS 
 	PORT (	datard_m	: IN	STD_LOGIC_VECTOR(15 DOWNTO 0);
 				addr_m	: OUT	STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000" ;
 				boot		: IN	STD_LOGIC;
 				clk		: IN	STD_LOGIC;
 				interrupt: IN  STD_LOGIC);
-END x1714;
+END suchProcessor;
 
-ARCHITECTURE Structure OF x1714 IS
+ARCHITECTURE Structure OF suchProcessor IS
 
 	-- Aqui iria la declaracion de las entidades que vamos a usar 
 	-- Usaremos la palabra reservada COMPONENT ...
