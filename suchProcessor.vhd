@@ -46,6 +46,7 @@ ARCHITECTURE Structure OF suchProcessor IS
 			regDST_long : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			inst  : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 			w	: IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+			w_long : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 			
 			e_writeBR_out : OUT STD_LOGIC; -- Decoded instruction writes the regiter bank
 			e_writeBR_long_out : OUT STD_LOGIC; -- Decoded instruction writes the regiter bank
@@ -470,6 +471,7 @@ BEGIN
 			regDST_long => rDST_F5W_W,
 			inst => instfd1_d1,
 			w => w_W_D,
+			w_long => wF5W_W,
 			
 			e_writeBR_out => e_writeBR_D_DE,
 			e_writeBR_long_out => e_writeBR_long_D_DE,

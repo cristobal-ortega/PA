@@ -43,6 +43,23 @@ ARCHITECTURE Structure OF CHIP IS
 	
 	COMPONENT suchControl IS 
 	PORT (clock : IN	STD_LOGIC;
+			instF3 : IN STD_LOGIC_VECTOR(3 DOWNTO 0); --structural hazards =)
+			instD : IN STD_LOGIC_VECTOR(3 DOWNTO 0);	
+			
+			regSRCa : IN STD_LOGIC_VECTOR(3 DOWNTO 0); --data hazards =)
+			regSRCb : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			regDST_E: IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			regDST_C : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			regDST_F1 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			regDST_F2 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			regDST_F3 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			regDST_F4 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			regDST_F5 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			
+			
+			request_m : IN STD_LOGIC := '0';
+			
+			stall_ontrol : OUT STD_LOGIC    --treat everything like stall
 
 			);
 
