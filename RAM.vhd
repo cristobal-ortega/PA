@@ -23,18 +23,20 @@ BEGIN
 
 	PROCESS(clock,req) 
 	BEGIN
-		status <= '1';
+		IF req = '1' THEN
+			status <= '1';
+		END IF;
 	END PROCESS;
 
 	PROCESS(clock)
 	BEGIN
 		IF status = '1' AND clock = '0' AND rw = '1' THEN
 			ram(CONV_INTEGER(addr(15 DOWNTO 3))) <= databus;
-			read <= '0'
+			status <= '0';
 		END IF;
 		IF status = '1' AND rw = '0' THEN
 			databus <= ram(CONV_INTEGER(addr(15 DOWNTO 3)));
-			read <= '0';
+			status <= '0';
 		END IF;
 	END PROCESS;
 END Structure;
