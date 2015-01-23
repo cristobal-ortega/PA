@@ -10,7 +10,7 @@ ENTITY F4 IS
 END F4;
 
 
-ARCHITECTURE Structure OF F5 IS
+ARCHITECTURE Structure OF F4 IS
 BEGIN
 -- F2..F5 adds 1 to the register, Rdst = Rsrc + 4; 
 	w <= a + "0000000000000001";
