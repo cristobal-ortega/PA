@@ -18,5 +18,6 @@ ARCHITECTURE Structure OF WRITEBACK IS
 BEGIN
 	--if instr == long, w <= data_long, else w <= data
 	w <= data;
+	e_writeBR_out <= e_writeBR_in;
 	
 END Structure;

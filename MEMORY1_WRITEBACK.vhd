@@ -48,7 +48,7 @@ BEGIN
 	PROCESS(clock)
 	BEGIN
 		IF (RISING_EDGE(clock)) AND (stall = '0')  THEN
-			e_writeBR_reg <= e_writeBR_reg;
+			e_writeBR_reg <= e_writeBR_in;
 			data_reg <= data_in;
 			op_reg <= op_in;
 			regDST_reg <= regDST_in;
