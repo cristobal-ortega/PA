@@ -20,8 +20,8 @@ ENTITY suchControl IS
 			
 			request_m : IN STD_LOGIC := '0';
 			
-			stall_control : OUT STD_LOGIC    --treat everything like stall
-
+			stall_control : OUT STD_LOGIC;    --treat everything like stall
+			hazard_detected : OUT STD_LOGIC
 			);
 
 END suchControl;
@@ -87,8 +87,12 @@ BEGIN
 
 	PROCESS(clock)
 	BEGIN
-		stall_control <= '0';
+		hazard_detected <= '0';
 		IF( s_hazard_control = '1' OR d_hazard_control = '1' ) THEN
+			hazard_detected <= '1';
+		END IF;
+		stall_control <= '0';
+		IF ( request_m = '1' ) THEN
 			stall_control <= '1';
 		END IF;
 	END PROCESS;

@@ -4,13 +4,15 @@ USE ieee.numeric_std.all;
 
 ENTITY FETCH IS 
 	PORT (clock : IN	STD_LOGIC;
-	
+			
 	
 			w	 : IN STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 			z : IN STD_LOGIC;
 			instr_jmp : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			hit 	: OUT STD_LOGIC;
 			inst  : OUT STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
+			hazard: IN STD_LOGIC := '0';
+			stall: IN STD_LOGIC := '0';
 			pc_out : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
 			
 			);
@@ -48,7 +50,9 @@ BEGIN
 	PROCESS(clock)
 	BEGIN
 		IF(RISING_EDGE(clock)) THEN
-			pc <= STD_LOGIC_VECTOR( UNSIGNED(pc) + 4);
+			IF hazard = '0' AND stall = '0' THEN
+				pc <= STD_LOGIC_VECTOR( UNSIGNED(pc) + 4);
+			END IF;
 			IF instr_jmp = "0111" AND z /= '0' THEN
 				pc <= w;
 			END IF;

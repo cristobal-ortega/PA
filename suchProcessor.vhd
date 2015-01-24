@@ -8,6 +8,7 @@ ENTITY suchProcessor IS
 				clk		: IN	STD_LOGIC;
 				interrupt: IN  STD_LOGIC;
 				stall_stage : IN STD_LOGIC := '0';
+				hazard_detected : IN STD_LOGIC := '0';
 				
 				instF3 : OUT STD_LOGIC_VECTOR(3 DOWNTO 0); --structural hazards =)
 				instD : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);	
@@ -45,6 +46,8 @@ ARCHITECTURE Structure OF suchProcessor IS
 			instr_jmp : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			hit 	: OUT STD_LOGIC;
 			inst  : OUT STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
+			hazard: IN STD_LOGIC := '0';
+			stall: IN STD_LOGIC := '0';
 			pc_out : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
 			);
 	END COMPONENT;
@@ -52,6 +55,7 @@ ARCHITECTURE Structure OF suchProcessor IS
 	COMPONENT FETCH_DECODE1
 	PORT (clock : IN	STD_LOGIC;
 			stall: IN STD_LOGIC;
+			hazard: IN STD_LOGIC := '0';
 			inst_in  : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 			inst_out  : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
 			pc_in : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
@@ -69,6 +73,7 @@ ARCHITECTURE Structure OF suchProcessor IS
 			inst  : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 			w	: IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 			w_long : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+			hazard: IN STD_LOGIC := '0';
 			
 			e_writeBR_out : OUT STD_LOGIC; -- Decoded instruction writes the regiter bank
 			e_writeBR_long_out : OUT STD_LOGIC; -- Decoded instruction writes the regiter bank
@@ -509,12 +514,15 @@ BEGIN
 				instr_jmp => inst_DE_E,
 				hit => hit_fetch,
 				inst => instf_fd1,
-				pc_out => pc_F_FD
+				pc_out => pc_F_FD,
+				hazard => hazard_detected,
+				stall => stall_stage
 				);
 	
 	F_D1: FETCH_DECODE1
 	PORT MAP(clock => clk,
 				stall => stall_stage,
+				hazard => hazard_detected,
 				inst_in => instf_fd1,
 				inst_out => instfd1_d1,
 				pc_in => pc_F_FD,
@@ -530,6 +538,7 @@ BEGIN
 			inst => instfd1_d1,
 			w => w_W_D,
 			w_long => wF5W_W,
+			hazard => hazard_detected,
 			
 			e_writeBR_out => e_writeBR_D_DE,
 			e_writeBR_long_out => e_writeBR_long_D_DE,
