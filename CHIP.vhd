@@ -71,7 +71,7 @@ ARCHITECTURE Structure OF CHIP IS
 
 	END COMPONENT;
 	
-	signal datard_m_bus : STD_LOGIC_VECTOR(63 DOWNTO 0) := x"1010101010101010";
+	signal datard_m_bus : STD_LOGIC_VECTOR(63 DOWNTO 0);
 	signal addr_m_bus : STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000" ;
 	
 	signal interrupt_bus : STD_LOGIC;

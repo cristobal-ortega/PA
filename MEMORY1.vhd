@@ -60,10 +60,10 @@ BEGIN
 		IF (clock = '1' AND hit_store_buffer = '1' AND op_in(3 DOWNTO 1) = "001" ) THEN
 				store_buffer(15 DOWNTO 0) <= w;
 		ELSIF ( clock = '1' AND hit_store_buffer = '0' AND op_in(3 DOWNTO 1) = "001") THEN
-				mem_bus <= store_buffer;
+				--mem_bus <= store_buffer;
 		END IF;
 	END PROCESS;
-	
+	mem_bus <= (OTHERS => 'Z');
 	hit_store_buffer <= '1' WHEN addr_store_buffer = w(15 DOWNTO 3) ELSE '0';
 	we_aux <= mem_ready AND NOT(hit_aux);
 	hit <= hit_aux;

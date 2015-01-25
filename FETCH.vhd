@@ -42,7 +42,7 @@ ARCHITECTURE Structure OF FETCH IS
  	SIGNAL hit_aux : STD_LOGIC;
 BEGIN
 
-	we <= mem_ready AND NOT(hit_aux);
+	we <= mem_ready AND hit_aux = '0';
 	ICD: cache_data
   	PORT MAP(clock => clock,
  				bw => '0',

@@ -57,11 +57,10 @@ BEGIN
 				databus_aux(63 DOWNTO 56) <= ram(CONV_INTEGER(addr)+7);
 			END IF;
 			status <= "11";
-		ELSIF status = "11" THEN	
 			ready <= '1';
+		ELSIF status = "11" THEN	
 			status <= "00";
-			databus <= databus_aux;
 		END IF;
-		
 	END PROCESS;
+	databus <= databus_aux WHEN ( status /= "00" ) ELSE (OTHERS => 'Z');
 END Structure;

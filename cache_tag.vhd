@@ -27,10 +27,8 @@ BEGIN
 	
 	PROCESS(clock)
 	BEGIN
-		IF clock = '0' THEN
-			IF we = '1' THEN 
+		IF clock = '1' AND we ='1' THEN
 				cache(CONV_INTEGER(line_selector)) <= addr(15 DOWNTO 7);
-			END IF;
 		END IF;
 	END PROCESS;
 END Structure;
