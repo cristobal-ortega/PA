@@ -13,6 +13,7 @@ ENTITY DECODE1 IS
 			inst  : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 			w	: IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 			w_long	: IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+			hazard: IN STD_LOGIC := '0';
 			
 			e_writeBR_out : OUT STD_LOGIC; -- Decoded instruction writes the regiter bank
 			e_writeBR_long_out : OUT STD_LOGIC; -- Decoded instruction writes the regiter bank
@@ -32,23 +33,37 @@ ARCHITECTURE Structure OF DECODE1 IS
 	TYPE t_regbank IS ARRAY(15 DOWNTO 0) OF STD_LOGIC_VECTOR(15 DOWNTO 0);
 	
 	SIGNAL reg_bank : t_regbank;
+	signal op_internal : STD_LOGIC_VECTOR(3 DOWNTO 0);
 BEGIN
-	op <= inst(15 DOWNTO 12);
-	a <= reg_bank(CONV_INTEGER(inst(11 DOWNTO 8))); 
-	
-	WITH inst(15 DOWNTO 12) SELECT b <= B"00000000" & inst(7 DOWNTO 0) WHEN "0111", -- JUMP BNZ
-													reg_bank(CONV_INTEGER(inst(7 DOWNTO 4))) WHEN OTHERS ;
+
+		WITH hazard SELECT op_internal <= inst(15 DOWNTO 12) when '0',
+													"1111" when OTHERS;
 		
-	WITH inst(15 DOWNTO 12) SELECT e_writeBR_out <= 
-													'1' WHEN "0100", -- ADD
-													'1' WHEN "0101", -- SUB
-													'1' WHEN "0110", -- CMP
-													'1' WHEN "0001", -- Load Byte
-													'1' WHEN "0000", -- Load Word
-													'1' WHEN "1000", -- Long Instruction
-													'0' WHEN OTHERS;
-													
-	regDST_out <= inst(3 DOWNTO 0);
+		op <= op_internal;
+		inst_out <= op_internal;
+		--op <= inst(15 DOWNTO 12)
+		a <= reg_bank(CONV_INTEGER(inst(11 DOWNTO 8))); 
+		
+		WITH op_internal SELECT b <= B"00000000" & inst(7 DOWNTO 0) WHEN "0111", -- JUMP BNZ
+														reg_bank(CONV_INTEGER(inst(7 DOWNTO 4))) WHEN OTHERS ;
+			
+		WITH op_internal SELECT e_writeBR_out <= 
+														'1' WHEN "0100", -- ADD
+														'1' WHEN "0101", -- SUB
+														'1' WHEN "0110", -- CMP
+														'1' WHEN "0001", -- Load Byte
+														'1' WHEN "0000", -- Load Word
+														'0' WHEN "1000", -- Long Instruction
+														'0' WHEN OTHERS;
+		
+		WITH op_internal SELECT e_writeBR_long_out <= '1' WHEN "1000", --long
+													    '0' WHEN OTHERS;
+														
+		with op_internal SELECT regDST_out <=  "1111" WHEN "1111",
+															inst(3 DOWNTO 0) WHEN OTHERS;
+	
+	
+	
 	
 	PROCESS(clock)
 	BEGIN
