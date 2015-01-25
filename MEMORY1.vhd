@@ -39,6 +39,7 @@ COMPONENT cache_data
 	SIGNAL hit_store_buffer : STD_LOGIC;
 	SIGNAL addr_store_buffer : STD_LOGIC_VECTOR(12 DOWNTO 0);
 	SIGNAL store_buffer : STD_LOGIC_VECTOR(63 DOWNTO 0);
+	signal data_load : STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 	
 BEGIN
 
@@ -48,7 +49,7 @@ BEGIN
 				we => we_aux,
 				addr => w(6 DOWNTO 0),
 				wr_data => mem_bus,
-				data => data);
+				data => data_load);
 				
 	DCT: cache_tag
 	PORT MAP(clock => clock,
@@ -68,5 +69,7 @@ BEGIN
 	hit_store_buffer <= '1' WHEN addr_store_buffer = w(15 DOWNTO 3) ELSE '0';
 	we_aux <= mem_ready AND NOT(hit_aux);
 	hit <= hit_aux;
-	data <= w;	
+	
+	WITH op_in(3 DOWNTO 1) SELECT data <= data_load WHEN "000",
+													  w WHEN OTHERS;
 END Structure;
