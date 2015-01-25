@@ -51,7 +51,10 @@ BEGIN
 		op <= op_internal;
 		inst_out <= op_internal;
 		--op <= inst(15 DOWNTO 12)
-		a <= reg_bank(CONV_INTEGER(inst(11 DOWNTO 8))); 
+		--WITH op_internal SELECT a<=  pc_in WHEN "0111",
+		--									 reg_bank(CONV_INTEGER(inst(11 DOWNTO 8))) WHEN OTHERS;
+		
+		a <= reg_bank(CONV_INTEGER(inst(11 DOWNTO 8)));
 		
 		WITH op_internal SELECT b <= STD_LOGIC_VECTOR(resize(signed(inst(7 DOWNTO 0)), b'length))  WHEN "0111", -- JUMP BNZ
 														reg_bank(CONV_INTEGER(inst(7 DOWNTO 4))) WHEN OTHERS ;

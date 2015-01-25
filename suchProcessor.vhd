@@ -123,6 +123,8 @@ ARCHITECTURE Structure OF suchProcessor IS
 			op  : IN STD_LOGIC_VECTOR(3 DOWNTO 0) := "0000";
 			a : IN STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 			b : IN STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
+			PC : IN STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
+			inst_in : IN STD_LOGIC_VECTOR(3 DOWNTO 0) := "0000";
 			w	 : OUT STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 			z : OUT STD_LOGIC
 			);
@@ -590,6 +592,8 @@ BEGIN
 				op => op_DE_E,
 				a => a_DE_E, 
 				b => b_DE_E,
+				PC => PC_DE_E,
+				inst_in => inst_DE_E,
 				w => w_E_EM,
 				z => z_E
 				);
