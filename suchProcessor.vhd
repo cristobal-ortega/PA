@@ -1,5 +1,6 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.all;
+USE ieee.std_logic_unsigned.all;
 
 ENTITY suchProcessor IS 
 	PORT (	datard_m	: INOUT	STD_LOGIC_VECTOR(63 DOWNTO 0);
@@ -375,7 +376,7 @@ ARCHITECTURE Structure OF suchProcessor IS
 	
 	--MEMORY
 	signal data_M_MW : STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
-	signal hit_mem : STD_LOGIC := '0';
+	signal hit_mem : STD_LOGIC;
 	
 	
 	--MEMORY_WRITEBACK TO WRITEBACK
@@ -485,6 +486,7 @@ ARCHITECTURE Structure OF suchProcessor IS
 	
 	
 	-- Señales para el control: $nombresignal_stage
+	signal addr_m_aux : STD_LOGIC_VECTOR (15 DOWNTO 0);
 	--signal stall_stage : STD_LOGIC := '0'; -- Stall el pipeline
 	
 BEGIN
@@ -774,6 +776,9 @@ BEGIN
 			op_out => op_F5W_W
 			);
 			
-	request_m <= hit_fetch OR hit_mem;
+	request_m <= hit_fetch AND hit_mem;
+	
+	addr_m <= pc_F_FD WHEN hit_fetch = '0' ELSE w_EM_M;
+		
 				
 END Structure;

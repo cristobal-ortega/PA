@@ -65,7 +65,7 @@ BEGIN
 	END PROCESS;
 	mem_bus <= (OTHERS => 'Z');
 	hit_store_buffer <= '1' WHEN addr_store_buffer = w(15 DOWNTO 3) ELSE '0';
-	we_aux <= mem_ready AND NOT(hit_aux);
-	hit <= hit_aux;
+	we_aux <= mem_ready AND NOT(hit_aux) AND NOT(op_in(3)) AND op_in(2) AND op_in(1);
+	hit <= '1' WHEN hit_aux = '1' OR  op_in(3 DOWNTO 1) /= "000" ELSE '0';
 	data <= w;	
 END Structure;

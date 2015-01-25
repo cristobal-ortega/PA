@@ -25,41 +25,43 @@ BEGIN
 
 	PROCESS(clock)
 	BEGIN
-		IF req = '1' AND status = "00" THEN
-			status <= "01";
-		END IF;
-		
-		IF status = "00"  AND clock = '1' THEN
-			ready <= '0';
-		ELSIF status = "01" THEN
-			IF rw = '1'  THEN
-				ram(CONV_INTEGER(addr)) <= databus(7 DOWNTO 0);
-				ram(CONV_INTEGER(addr)+1) <= databus(15 DOWNTO 8);
-				ram(CONV_INTEGER(addr)+2) <= databus(23 DOWNTO 16);
-				ram(CONV_INTEGER(addr)+3) <= databus(31 DOWNTO 24);
-			ELSIF rw = '0' THEN
-				databus_aux(7 DOWNTO 0) <= ram(CONV_INTEGER(addr));
-				databus_aux(15 DOWNTO 8) <= ram(CONV_INTEGER(addr)+1);
-				databus_aux(23 DOWNTO 16) <= ram(CONV_INTEGER(addr)+2);
-				databus_aux(31 DOWNTO 24) <= ram(CONV_INTEGER(addr)+3);
+		IF clock = '1' THEN 
+			IF req = '1' AND status = "00" THEN
+				status <= "01";
 			END IF;
-			status <= "10";
-		ELSIF status = "10" THEN
-			IF rw = '1'  THEN
-				ram(CONV_INTEGER(addr)+4) <= databus(39 DOWNTO 32);
-				ram(CONV_INTEGER(addr)+5) <= databus(47 DOWNTO 40);
-				ram(CONV_INTEGER(addr)+6) <= databus(55 DOWNTO 48);
-				ram(CONV_INTEGER(addr)+7) <= databus(63 DOWNTO 56);
-			ELSIF rw = '0' THEN
-				databus_aux(39 DOWNTO 32) <= ram(CONV_INTEGER(addr)+4);
-				databus_aux(47 DOWNTO 40) <= ram(CONV_INTEGER(addr)+5);
-				databus_aux(55 DOWNTO 48) <= ram(CONV_INTEGER(addr)+6);
-				databus_aux(63 DOWNTO 56) <= ram(CONV_INTEGER(addr)+7);
+			
+			IF status = "00"  THEN
+				ready <= '0';
+			ELSIF status = "01" THEN
+				IF rw = '1'  THEN
+					ram(CONV_INTEGER(addr)) <= databus(7 DOWNTO 0);
+					ram(CONV_INTEGER(addr)+1) <= databus(15 DOWNTO 8);
+					ram(CONV_INTEGER(addr)+2) <= databus(23 DOWNTO 16);
+					ram(CONV_INTEGER(addr)+3) <= databus(31 DOWNTO 24);
+				ELSIF rw = '0' THEN
+					databus_aux(7 DOWNTO 0) <= ram(CONV_INTEGER(addr));
+					databus_aux(15 DOWNTO 8) <= ram(CONV_INTEGER(addr)+1);
+					databus_aux(23 DOWNTO 16) <= ram(CONV_INTEGER(addr)+2);
+					databus_aux(31 DOWNTO 24) <= ram(CONV_INTEGER(addr)+3);
+				END IF;
+				status <= "10";
+			ELSIF status = "10" THEN
+				IF rw = '1'  THEN
+					ram(CONV_INTEGER(addr)+4) <= databus(39 DOWNTO 32);
+					ram(CONV_INTEGER(addr)+5) <= databus(47 DOWNTO 40);
+					ram(CONV_INTEGER(addr)+6) <= databus(55 DOWNTO 48);
+					ram(CONV_INTEGER(addr)+7) <= databus(63 DOWNTO 56);
+				ELSIF rw = '0' THEN
+					databus_aux(39 DOWNTO 32) <= ram(CONV_INTEGER(addr)+4);
+					databus_aux(47 DOWNTO 40) <= ram(CONV_INTEGER(addr)+5);
+					databus_aux(55 DOWNTO 48) <= ram(CONV_INTEGER(addr)+6);
+					databus_aux(63 DOWNTO 56) <= ram(CONV_INTEGER(addr)+7);
+				END IF;
+				status <= "11";
+				ready <= '1';
+			ELSIF status = "11" THEN	
+				status <= "00";
 			END IF;
-			status <= "11";
-			ready <= '1';
-		ELSIF status = "11" THEN	
-			status <= "00";
 		END IF;
 	END PROCESS;
 	databus <= databus_aux WHEN ( status /= "00" ) ELSE (OTHERS => 'Z');
