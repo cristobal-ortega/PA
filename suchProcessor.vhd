@@ -124,6 +124,8 @@ ARCHITECTURE Structure OF suchProcessor IS
 			op  : IN STD_LOGIC_VECTOR(3 DOWNTO 0) := "0000";
 			a : IN STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 			b : IN STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
+			PC : IN STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
+			inst_in : IN STD_LOGIC_VECTOR(3 DOWNTO 0) := "0000";
 			w	 : OUT STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 			z : OUT STD_LOGIC
 			);
@@ -329,7 +331,7 @@ ARCHITECTURE Structure OF suchProcessor IS
 			);
 	END COMPONENT;
 
-	-- Las señales auxiliares para conectar los modulos se nombraran de la siguiente forma: $nombresignal$etapafuente_$estapadestino
+	-- Las seales auxiliares para conectar los modulos se nombraran de la siguiente forma: $nombresignal$etapafuente_$estapadestino
 	signal instf_fd1 : STD_LOGIC_VECTOR(15 DOWNTO 0);
 	signal instfd1_d1 : STD_LOGIC_VECTOR(15 DOWNTO 0);
 	signal pc_F_FD : STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
@@ -489,7 +491,7 @@ ARCHITECTURE Structure OF suchProcessor IS
 	signal regwF5_F5W : STD_LOGIC_VECTOR(15 DOWNTO 0);	
 	
 	
-	-- Señales para el control: $nombresignal_stage
+	-- Seales para el control: $nombresignal_stage
 	signal addr_m_aux : STD_LOGIC_VECTOR (15 DOWNTO 0);
 	--signal stall_stage : STD_LOGIC := '0'; -- Stall el pipeline
 	
@@ -592,6 +594,8 @@ BEGIN
 				op => op_DE_E,
 				a => a_DE_E, 
 				b => b_DE_E,
+				PC => PC_DE_E,
+				inst_in => inst_DE_E,
 				w => w_E_EM,
 				z => z_E
 				);
