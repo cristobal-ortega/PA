@@ -21,7 +21,8 @@ ENTITY suchControl IS
 			request_m : IN STD_LOGIC := '0';
 			
 			stall_control : OUT STD_LOGIC;			--treat everything like stall
-			memory_request : OUT STD_LOGIC := '0'
+			memory_request : OUT STD_LOGIC := '0';
+			hazard_detected : OUT STD_LOGIC
 			);
 
 END suchControl;
@@ -86,17 +87,20 @@ BEGIN
 				);
 	
 
+	hazard_detected <= s_hazard_control OR d_hazard_control;
+	
+	WITH request_m SELECT stall_control <= '1' WHEN '1',
+														'0' WHEN OTHERS;
+	
 	PROCESS(clock)
 	BEGIN
-		stall_control <= '0';
-		IF( s_hazard_control = '1' OR d_hazard_control = '1' OR hit = '0') THEN
-			stall_control <= '1';
-		END IF;
-		IF ( hit = '0') THEN
-			memory_request <= '1';
-		ELSIF( request_m = '1') THEN
-			memory_request <= '0';
-		END IF;
+		--hazard_detected <= '0';
+		--IF( s_hazard_control = '1' OR d_hazard_control = '1' ) THEN
+		-- hazard_detected <= '1';
+		--END IF;
+		--stall_control <= '0';
+		--IF ( request_m = '1' ) THEN
+		--	stall_control <= '1';
+		--END IF;
 	END PROCESS;
-
 END Structure;

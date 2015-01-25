@@ -7,6 +7,7 @@ ENTITY MEMORY1 IS
 			op_in : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			w 		 : IN STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 			mem_ready : IN STD_LOGIC;
+			a : IN STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 			mem_bus : INOUT STD_LOGIC_VECTOR(63 DOWNTO 0);
 			data	 : OUT STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 			hit	 : OUT STD_LOGIC := '0'
@@ -68,7 +69,6 @@ BEGIN
 	hit_store_buffer <= '1' WHEN addr_store_buffer = w(15 DOWNTO 3) ELSE '0';
 	we_aux <= mem_ready AND NOT(hit_aux) AND NOT(op_in(3)) AND op_in(2) AND op_in(1);
 	hit <= '1' WHEN hit_aux = '1' OR  op_in(3 DOWNTO 1) /= "000" ELSE '0';
-	data <= w;	
 	
 	WITH op_in(3 DOWNTO 1) SELECT data <= data_load WHEN "000",
                                                  w WHEN OTHERS;
