@@ -61,6 +61,7 @@ BEGIN
 				ready <= '1';
 			ELSIF status = "11" THEN	
 				status <= "00";
+				ready <= '0';
 			END IF;
 		END IF;
 	END PROCESS;
