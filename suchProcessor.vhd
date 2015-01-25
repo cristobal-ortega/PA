@@ -398,6 +398,7 @@ ARCHITECTURE Structure OF suchProcessor IS
 	signal wF4_F4F5 : STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 	signal wF5_F5W : STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 	
+	signal e_writeBR_long_DE_F1 : STD_LOGIC;
 	signal e_writeBR_F1F2_F2 : STD_LOGIC;
 	signal e_writeBR_F2F3_F3 : STD_LOGIC;
 	signal e_writeBR_F3F4_F4 : STD_LOGIC;
@@ -555,7 +556,7 @@ BEGIN
 			stall => stall_stage,
 
 			e_writeBR_in => e_writeBR_D_DE,
-			e_writeBR_long_in => ewriteBR_long_D_DE,
+			e_writeBR_long_in => e_writeBR_long_D_DE,
 			op_in => op_D_DE,
 			a_in => a_D_DE,
 			b_in => b_D_DE,
@@ -564,6 +565,7 @@ BEGIN
 			inst_in => inst_D_DE,
 			
 			e_writeBR_out => e_writeBR_DE_E,
+			e_writeBR_long_out => e_writeBR_long_DE_F1,
 			op_out => op_DE_E,
 			a_out => a_DE_E,
 			b_out => b_DE_E,
@@ -652,7 +654,7 @@ BEGIN
 	PORT MAP(clock => clk,
 			stall => stall_stage,
 			
-			e_writeBR_in => e_writeBR_long_D_DE,
+			e_writeBR_in => e_writeBR_long_DE_F1,
 			w_in => wF1_F1F2,
 			PC_in => PC_DE_E,
 			inst_in => inst_DE_E,

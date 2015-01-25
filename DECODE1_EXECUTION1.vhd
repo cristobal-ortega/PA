@@ -30,7 +30,8 @@ END DECODE1_EXECUTION1;
 
 ARCHITECTURE Structure OF DECODE1_EXECUTION1 IS
 
-	SIGNAL e_writeBR_reg : STD_LOGIC;
+	SIGNAL e_writeBR_reg : STD_LOGIC := '0';
+	SIGNAL e_writeBR_long_reg : STD_LOGIC := '0';
 	SIGNAL op_reg   : STD_LOGIC_VECTOR(3 DOWNTO 0) :="0000";
 	SIGNAL a_reg : STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 	SIGNAL b_reg : STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
@@ -42,6 +43,7 @@ BEGIN
 	
 
 	e_writeBR_out <= e_writeBR_reg;
+	e_writeBR_long_out <= e_writeBR_long_reg;
 	op_out <= op_reg;
 	a_out <= a_reg;
 	b_out <= b_reg;
@@ -53,6 +55,7 @@ BEGIN
 	BEGIN
 		IF (RISING_EDGE(clock)) AND (stall = '0')  THEN
 			e_writeBR_reg <= e_writeBR_in;
+			e_writeBR_long_reg <= e_writeBR_long_in;
 			op_reg <= op_in;
 			a_reg <= a_in;
 			b_reg <= b_in;

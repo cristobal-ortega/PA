@@ -84,13 +84,14 @@ BEGIN
 
 				);
 	
+	hazard_detected <= s_hazard_control OR d_hazard_control;
 
 	PROCESS(clock)
 	BEGIN
-		hazard_detected <= '0';
-		IF( s_hazard_control = '1' OR d_hazard_control = '1' ) THEN
-			hazard_detected <= '1';
-		END IF;
+		--hazard_detected <= '0';
+		--IF( s_hazard_control = '1' OR d_hazard_control = '1' ) THEN
+		--	hazard_detected <= '1';
+		--END IF;
 		stall_control <= '0';
 		IF ( request_m = '1' ) THEN
 			stall_control <= '1';

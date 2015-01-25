@@ -1,5 +1,6 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 USE ieee.std_logic_unsigned.all;
 
 
@@ -15,8 +16,8 @@ ENTITY DECODE1 IS
 			w_long	: IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 			hazard: IN STD_LOGIC := '0';
 			
-			e_writeBR_out : OUT STD_LOGIC; -- Decoded instruction writes the regiter bank
-			e_writeBR_long_out : OUT STD_LOGIC; -- Decoded instruction writes the regiter bank
+			e_writeBR_out : OUT STD_LOGIC := '0'; -- Decoded instruction writes the regiter bank
+			e_writeBR_long_out : OUT STD_LOGIC := '0'; -- Decoded instruction writes the regiter bank
 			op		: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
 			a : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
 			b : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
@@ -44,8 +45,9 @@ BEGIN
 		--op <= inst(15 DOWNTO 12)
 		a <= reg_bank(CONV_INTEGER(inst(11 DOWNTO 8))); 
 		
-		WITH op_internal SELECT b <= B"00000000" & inst(7 DOWNTO 0) WHEN "0111", -- JUMP BNZ
+		WITH op_internal SELECT b <= STD_LOGIC_VECTOR(resize(signed(inst(7 DOWNTO 0)), b'length))  WHEN "0111", -- JUMP BNZ
 														reg_bank(CONV_INTEGER(inst(7 DOWNTO 4))) WHEN OTHERS ;
+														
 			
 		WITH op_internal SELECT e_writeBR_out <= 
 														'1' WHEN "0100", -- ADD
@@ -57,7 +59,7 @@ BEGIN
 														'0' WHEN OTHERS;
 		
 		WITH op_internal SELECT e_writeBR_long_out <= '1' WHEN "1000", --long
-													    '0' WHEN OTHERS;
+																	'0' WHEN OTHERS;
 														
 		with op_internal SELECT regDST_out <=  "1111" WHEN "1111",
 															inst(3 DOWNTO 0) WHEN OTHERS;

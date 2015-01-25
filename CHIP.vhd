@@ -22,6 +22,7 @@ ARCHITECTURE Structure OF CHIP IS
 			clk		: IN	STD_LOGIC;
 			interrupt: IN  STD_LOGIC;
 			stall_stage : IN STD_LOGIC := '0';
+			hazard_detected : IN STD_LOGIC := '0';
 			
 			instF3 : OUT STD_LOGIC_VECTOR(3 DOWNTO 0); --structural hazards =)
 			instD : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);	
@@ -58,7 +59,8 @@ ARCHITECTURE Structure OF CHIP IS
 			
 			request_m : IN STD_LOGIC := '0';
 			
-			stall_control : OUT STD_LOGIC    --treat everything like stall
+			stall_control : OUT STD_LOGIC;    --treat everything like stall
+			hazard_detected : OUT STD_LOGIC
 
 			);
 
@@ -70,6 +72,7 @@ ARCHITECTURE Structure OF CHIP IS
 	
 	signal interrupt_bus : STD_LOGIC;
 	signal stall_stage_bus : STD_LOGIC := '0';
+	signal hazard_detected_bus : STD_LOGIC := '0';
 	signal instF3_bus : STD_LOGIC_VECTOR(3 DOWNTO 0); --structural hazards =)
 	signal instD_bus : STD_LOGIC_VECTOR(3 DOWNTO 0);	
 		
@@ -85,7 +88,7 @@ ARCHITECTURE Structure OF CHIP IS
 	signal regDST_F5_bus : STD_LOGIC_VECTOR(3 DOWNTO 0);
 			
 	signal request_m_bus : STD_LOGIC := '0';
-	
+	signal hazard : STD_LOGIC := '0';
 BEGIN
 
 	sP : suchProcessor
@@ -95,7 +98,7 @@ BEGIN
 			clk => clock,
 			interrupt => interrupt_bus,
 			stall_stage => stall_stage_bus,
-			
+			hazard_detected => hazard_detected_bus,
 			instF3 => instF3_bus,
 			instD => instD_bus,
 			
@@ -131,7 +134,8 @@ BEGIN
 			
 			request_m => request_m_bus,
 			
-			stall_control => stall_stage_bus
+			stall_control => stall_stage_bus,
+			hazard_detected => hazard_detected_bus
 	
 		);
 	
