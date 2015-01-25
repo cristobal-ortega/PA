@@ -17,11 +17,11 @@ ENTITY suchControl IS
 			regDST_F4 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			regDST_F5 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			
-			
+			hit 	    : IN STD_LOGIC := '0';
 			request_m : IN STD_LOGIC := '0';
 			
-			stall_control : OUT STD_LOGIC    --treat everything like stall
-
+			stall_control : OUT STD_LOGIC;			--treat everything like stall
+			memory_request : OUT STD_LOGIC := '0'
 			);
 
 END suchControl;
@@ -59,6 +59,7 @@ ARCHITECTURE Structure OF suchControl IS
 
 	signal s_hazard_control : STD_LOGIC;
 	signal d_hazard_control : STD_LOGIC;
+	signal memory_request_aux : STD_LOGIC := '0';
 	
 BEGIN
 
@@ -88,8 +89,13 @@ BEGIN
 	PROCESS(clock)
 	BEGIN
 		stall_control <= '0';
-		IF( s_hazard_control = '1' OR d_hazard_control = '1' ) THEN
+		IF( s_hazard_control = '1' OR d_hazard_control = '1' OR hit = '0') THEN
 			stall_control <= '1';
+		END IF;
+		IF ( hit = '0') THEN
+			memory_request <= '1';
+		ELSIF( request_m = '1') THEN
+			memory_request <= '0';
 		END IF;
 	END PROCESS;
 

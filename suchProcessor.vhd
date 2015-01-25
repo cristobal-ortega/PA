@@ -2,11 +2,12 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 
 ENTITY suchProcessor IS 
-	PORT (	datard_m	: IN	STD_LOGIC_VECTOR(15 DOWNTO 0);
+	PORT (	datard_m	: INOUT	STD_LOGIC_VECTOR(63 DOWNTO 0);
 				addr_m	: OUT	STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000" ;
 				boot		: IN	STD_LOGIC;
 				clk		: IN	STD_LOGIC;
 				interrupt: IN  STD_LOGIC;
+				mem_fill : IN STD_LOGIC;
 				stall_stage : IN STD_LOGIC := '0';
 				
 				instF3 : OUT STD_LOGIC_VECTOR(3 DOWNTO 0); --structural hazards =)
@@ -41,8 +42,10 @@ ARCHITECTURE Structure OF suchProcessor IS
 	PORT (
 			clock : IN	STD_LOGIC;
 			w	 : IN STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
+			mem_ready : IN STD_LOGIC;
 			z : IN STD_LOGIC;
 			instr_jmp : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			mem_bus : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
 			hit 	: OUT STD_LOGIC;
 			inst  : OUT STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 			pc_out : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
@@ -140,14 +143,14 @@ ARCHITECTURE Structure OF suchProcessor IS
 	END COMPONENT;
 	
 	COMPONENT MEMORY1
-	PORT (clock : IN	STD_LOGIC;
-	
+		PORT (clock : IN	STD_LOGIC;
 			instr_in : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			op_in : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			w 		 : IN STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
+			mem_ready : IN STD_LOGIC;
+			mem_bus : INOUT STD_LOGIC_VECTOR(63 DOWNTO 0);
 			data	 : OUT STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
-			request	 : OUT STD_LOGIC := '0'
-			
+			hit	 : OUT STD_LOGIC := '0'
 			);
 	END COMPONENT;
 	
@@ -367,7 +370,7 @@ ARCHITECTURE Structure OF suchProcessor IS
 	
 	--MEMORY
 	signal data_M_MW : STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
-
+	signal hit_mem : STD_LOGIC := '0';
 	
 	
 	--MEMORY_WRITEBACK TO WRITEBACK
@@ -506,6 +509,8 @@ BEGIN
 	PORT MAP(clock => clk,
 				w => w_E_EM,
 				z => z_E,
+				mem_ready => mem_fill,
+				mem_bus => datard_m,
 				instr_jmp => inst_DE_E,
 				hit => hit_fetch,
 				inst => instf_fd1,
@@ -598,9 +603,10 @@ BEGIN
 			instr_in => instr_EM_M,
 			op_in => op_EM_M,
 			w => w_EM_M,
-			
+			mem_ready => mem_fill,
+			mem_bus => datard_m,
 			data => data_M_MW,
-			request => request_m
+			hit => hit_mem
 			
 			);
 				
@@ -756,5 +762,7 @@ BEGIN
 			rDST_out => rDST_F5W_W,
 			op_out => op_F5W_W
 			);
+			
+	request_m <= hit_fetch OR hit_mem;
 				
 END Structure;

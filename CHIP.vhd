@@ -5,10 +5,7 @@ USE ieee.std_logic_unsigned.all;
 ENTITY CHIP IS 
 	PORT (clock : IN	STD_LOGIC;
 			boot : IN STD_LOGIC;
-			instF3 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-			instD : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-			s_hazard : OUT STD_LOGIC
-			);
+			interrupt : IN STD_LOGIC);
 
 END CHIP;
 
@@ -16,11 +13,12 @@ END CHIP;
 ARCHITECTURE Structure OF CHIP IS
 
 	COMPONENT suchProcessor
-	PORT (datard_m	: IN	STD_LOGIC_VECTOR(15 DOWNTO 0);
+	PORT (datard_m	: INOUT	STD_LOGIC_VECTOR(63 DOWNTO 0);
 			addr_m	: OUT	STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000" ;
 			boot		: IN	STD_LOGIC;
 			clk		: IN	STD_LOGIC;
 			interrupt: IN  STD_LOGIC;
+			mem_fill : IN STD_LOGIC;
 			stall_stage : IN STD_LOGIC := '0';
 			
 			instF3 : OUT STD_LOGIC_VECTOR(3 DOWNTO 0); --structural hazards =)
@@ -55,17 +53,25 @@ ARCHITECTURE Structure OF CHIP IS
 			regDST_F4 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			regDST_F5 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			
-			
+			hit 	    : IN STD_LOGIC := '0';
 			request_m : IN STD_LOGIC := '0';
 			
-			stall_control : OUT STD_LOGIC    --treat everything like stall
-
+			stall_control : OUT STD_LOGIC;			--treat everything like stall
+			memory_request : OUT STD_LOGIC := '0'
 			);
 
 	END COMPONENT;
 
+	COMPONENT RAM IS 
+	PORT (databus : INOUT STD_LOGIC_VECTOR(63 DOWNTO 0) ;
+	      addr  : IN STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
+	      rw    : IN STD_LOGIC;
+      	req   : IN STD_LOGIC;
+	      ready : OUT STD_LOGIC);
+
+	END COMPONENT;
 	
-	signal datard_m_bus : STD_LOGIC_VECTOR(15 DOWNTO 0);
+	signal datard_m_bus : STD_LOGIC_VECTOR(63 DOWNTO 0) := x"1010101010101010";
 	signal addr_m_bus : STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000" ;
 	
 	signal interrupt_bus : STD_LOGIC;
@@ -85,6 +91,8 @@ ARCHITECTURE Structure OF CHIP IS
 	signal regDST_F5_bus : STD_LOGIC_VECTOR(3 DOWNTO 0);
 			
 	signal request_m_bus : STD_LOGIC := '0';
+	signal mem_ready : STD_LOGIC := '0' ;
+	signal memory_request_bus : STD_LOGIC := '0';
 	
 BEGIN
 
@@ -94,6 +102,7 @@ BEGIN
 			boot => boot,
 			clk => clock,
 			interrupt => interrupt_bus,
+			mem_fill => mem_ready,
 			stall_stage => stall_stage_bus,
 			
 			instF3 => instF3_bus,
@@ -128,17 +137,17 @@ BEGIN
 			regDST_F4 => regDST_F4_bus,
 			regDST_F5 => regDST_F5_bus,
 			
+			hit => request_m_bus,
+			request_m => mem_ready,
 			
-			request_m => request_m_bus,
-			
-			stall_control => stall_stage_bus
-	
+			stall_control => stall_stage_bus,
+			memory_request => memory_request_bus
 		);
-	
-
-	PROCESS(clock)
-	BEGIN
-
-	END PROCESS;
-
+		
+		mem1 : RAM
+		PORT MAP(databus => datard_m_bus,
+				addr => addr_m_bus,
+				rw  => '0',
+				req  => memory_request_bus,
+				ready => mem_ready);
 END Structure;
