@@ -78,6 +78,8 @@ ARCHITECTURE Structure OF suchProcessor IS
 			w	: IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 			w_long : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 			hazard: IN STD_LOGIC := '0';
+			z : IN STD_LOGIC;
+			instr_jmp : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			
 			e_writeBR_out : OUT STD_LOGIC; -- Decoded instruction writes the regiter bank
 			e_writeBR_long_out : OUT STD_LOGIC; -- Decoded instruction writes the regiter bank
@@ -137,14 +139,14 @@ ARCHITECTURE Structure OF suchProcessor IS
 			PC_in : IN STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 			instr_in : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			op_in : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-			
+			a_in : IN STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 			e_writeBR_out : OUT STD_LOGIC;
 			w_out	 : OUT STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 			regDST_out : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
 			PC_out : OUT STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 			instr_out : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-			op_out : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
-			
+			op_out : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+			a_out : OUT STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000"
 			);
 	END COMPONENT;
 	
@@ -154,6 +156,7 @@ ARCHITECTURE Structure OF suchProcessor IS
 			op_in : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			w 		 : IN STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 			mem_ready : IN STD_LOGIC;
+			a : IN STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 			mem_bus : INOUT STD_LOGIC_VECTOR(63 DOWNTO 0);
 			data	 : OUT STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 			hit	 : OUT STD_LOGIC := '0'
@@ -373,6 +376,7 @@ ARCHITECTURE Structure OF suchProcessor IS
 	signal PC_EM_M : STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 	signal instr_EM_M : STD_LOGIC_VECTOR(3 DOWNTO 0);
 	signal op_EM_M : STD_LOGIC_VECTOR(3 DOWNTO 0);
+	signal a_EM_M : STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
 	
 	--MEMORY
 	signal data_M_MW : STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
@@ -547,6 +551,8 @@ BEGIN
 			w => w_W_D,
 			w_long => wF5W_W,
 			hazard => hazard_detected,
+			z => z_E,
+			instr_jmp =>inst_DE_E,
 			
 			e_writeBR_out => e_writeBR_D_DE,
 			e_writeBR_long_out => e_writeBR_long_D_DE,
@@ -600,13 +606,14 @@ BEGIN
 			PC_in => PC_DE_E,
 			instr_in => inst_DE_E,
 			op_in => op_DE_E,
-			
+			a_in => a_DE_E,
 			e_writeBR_out => e_writeBR_EM_M,
 			w_out => w_EM_M,
 			regDST_out => regDST_EM_M,
 			PC_out => PC_EM_M,
 			instr_out => instr_EM_M,
-			op_out => op_EM_M
+			op_out => op_EM_M,
+			a_out => a_EM_M
 			
 			);
 				
@@ -616,6 +623,7 @@ BEGIN
 			instr_in => instr_EM_M,
 			op_in => op_EM_M,
 			w => w_EM_M,
+			a => a_EM_M,
 			mem_ready => mem_fill,
 			mem_bus => datard_m,
 			data => data_M_MW,

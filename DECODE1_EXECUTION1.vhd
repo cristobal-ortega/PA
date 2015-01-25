@@ -62,7 +62,6 @@ BEGIN
 			regDST_reg <= regDST_in;
 			PC_reg <= PC_in;
 			inst_reg <= inst_in;
-	
 		END IF;
 	END PROCESS;
 END Structure;

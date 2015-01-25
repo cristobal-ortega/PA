@@ -15,6 +15,9 @@ ENTITY DECODE1 IS
 			w	: IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 			w_long	: IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 			hazard: IN STD_LOGIC := '0';
+			z : IN STD_LOGIC;
+			instr_jmp : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			
 			
 			e_writeBR_out : OUT STD_LOGIC := '0'; -- Decoded instruction writes the regiter bank
 			e_writeBR_long_out : OUT STD_LOGIC := '0'; -- Decoded instruction writes the regiter bank
@@ -35,11 +38,16 @@ ARCHITECTURE Structure OF DECODE1 IS
 	
 	SIGNAL reg_bank : t_regbank;
 	signal op_internal : STD_LOGIC_VECTOR(3 DOWNTO 0);
+	signal op_internal_hazard : STD_LOGIC_VECTOR(3 DOWNTO 0);
 BEGIN
 
-		WITH hazard SELECT op_internal <= inst(15 DOWNTO 12) when '0',
+		WITH hazard SELECT op_internal_hazard <= inst(15 DOWNTO 12) when '0',
 													"1111" when OTHERS;
 		
+		WITH instr_jmp & z SELECT op_internal <= "1111" when "01110",
+																op_internal_hazard when OTHERS;
+		
+
 		op <= op_internal;
 		inst_out <= op_internal;
 		--op <= inst(15 DOWNTO 12)
@@ -75,6 +83,10 @@ BEGIN
 			END IF;
 			IF e_writeBR_long = '1' THEN
 				reg_bank(CONV_INTEGER(regDST_long)) <= w_long;
+			END IF;
+			
+			IF instr_jmp = "0111" AND z = '0' THEN
+				pc <= w;
 			END IF;
 		END IF;
 	END PROCESS;
