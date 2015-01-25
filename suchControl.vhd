@@ -91,7 +91,7 @@ BEGIN
 	
 	WITH hit SELECT stall_control <= '1' WHEN '0',
 														'0' WHEN OTHERS;
-	WITH request_m SELECT memory_request <= '1' WHEN '0',
+	WITH hit SELECT memory_request <= '1' WHEN '0',
 														 '0' WHEN OTHERS;
 	
 	PROCESS(clock)
