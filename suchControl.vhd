@@ -89,8 +89,10 @@ BEGIN
 
 	hazard_detected <= s_hazard_control OR d_hazard_control;
 	
-	WITH request_m SELECT stall_control <= '1' WHEN '1',
+	WITH hit SELECT stall_control <= '1' WHEN '0',
 														'0' WHEN OTHERS;
+	WITH request_m SELECT memory_request <= '1' WHEN '0',
+														 '0' WHEN OTHERS;
 	
 	PROCESS(clock)
 	BEGIN
