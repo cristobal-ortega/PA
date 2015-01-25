@@ -25,7 +25,7 @@ BEGIN
 		add WHEN "0100", --add
 		sub WHEN "0101", --sub
 		sub WHEN "0110", --cmp
-		sub WHEN "0111", --bnz
+		add WHEN "0111", --bnz
 		add WHEN OTHERS;
 		
 	--Mucho ojo con esto: si z ejecuta antes k se ponga w, esto va a dar mal, hay que testear
