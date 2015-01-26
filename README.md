@@ -22,6 +22,6 @@ Features:
 - Instruction/Data cache  
 - Data hazards  
 - Structural hazards  
-- Maim memory implemented inside the top level  
+- Main memory implemented inside the top level  
 - Stall all the processor/Fetch and Decode stages  
 
