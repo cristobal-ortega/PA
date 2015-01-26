@@ -1,0 +1,5 @@
+Demo 1:
+-Instructions fetch, load, lw, data hazards
+
+Demo 2:
+-BNZ, long, data hazards
