@@ -16,6 +16,8 @@ ENTITY suchControl IS
 			regDST_F3 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			regDST_F4 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			regDST_F5 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			regDST_F5W : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			
 			
 			hit 	    : IN STD_LOGIC := '0';
 			request_m : IN STD_LOGIC := '0';
@@ -53,6 +55,7 @@ ARCHITECTURE Structure OF suchControl IS
 			regDST_F3 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			regDST_F4 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			regDST_F5 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			regDST_F5W : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			d_hazard : OUT STD_LOGIC
 			
 			);
@@ -82,6 +85,7 @@ BEGIN
 			regDST_F3  => regDST_F3,
 			regDST_F4  => regDST_F4,
 			regDST_F5  => regDST_F5,
+			regDST_F5W => regDST_F5W,
 			d_hazard  => d_hazard_control
 
 				);

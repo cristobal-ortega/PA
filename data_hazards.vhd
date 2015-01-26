@@ -13,6 +13,7 @@ ENTITY DATA_HAZARDS IS
 			regDST_F3 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			regDST_F4 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			regDST_F5 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			regDST_F5W : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			d_hazard : OUT STD_LOGIC
 			
 			);
@@ -28,12 +29,13 @@ BEGIN
 	PROCESS(clock)
 	BEGIN
 		d_hazard <= '0';
-		IF ( (regSRCa = regDST_E) OR (regSRCa = regDST_C) OR (regSRCa = regDST_F1) OR (regSRCa = regDST_F2) OR (regSRCa = regDST_F3) OR (regSRCa = regDST_F4) OR (regSRCa = regDST_F5) ) THEN 
+		IF ( (regSRCa = regDST_E) OR (regSRCa = regDST_C) OR (regSRCa = regDST_F1) OR (regSRCa = regDST_F2) OR (regSRCa = regDST_F3) OR (regSRCa = regDST_F4) OR (regSRCa = regDST_F5) OR (regSRCa = regDST_F5W) ) THEN 
 			d_hazard <= '1';
 		END IF;
-		IF ( (regSRCb = regDST_E) OR (regSRCb = regDST_C) OR (regSRCb = regDST_F1) OR (regSRCb = regDST_F2) OR (regSRCb = regDST_F3) OR (regSRCb = regDST_F4) OR (regSRCb = regDST_F5) ) THEN
+		IF ( (regSRCb = regDST_E) OR (regSRCb = regDST_C) OR (regSRCb = regDST_F1) OR (regSRCb = regDST_F2) OR (regSRCb = regDST_F3) OR (regSRCb = regDST_F4) OR (regSRCb = regDST_F5) OR (regSRCb = regDST_F5W) ) THEN
 			d_hazard <= '1';
 		END IF;
 	END PROCESS;
 
 END Structure;
+

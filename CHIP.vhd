@@ -33,7 +33,7 @@ ARCHITECTURE Structure OF CHIP IS
 			regDST_F3 : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
 			regDST_F4 : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
 			regDST_F5 : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-			
+			regDST_F5W : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
 			
 			request_m : OUT STD_LOGIC := '0'
 			);
@@ -53,6 +53,7 @@ ARCHITECTURE Structure OF CHIP IS
 			regDST_F3 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			regDST_F4 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			regDST_F5 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			regDST_F5W : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			
 			hit 	    : IN STD_LOGIC := '0';
 			request_m : IN STD_LOGIC := '0';
@@ -93,7 +94,8 @@ ARCHITECTURE Structure OF CHIP IS
 	signal regDST_F3_bus : STD_LOGIC_VECTOR(3 DOWNTO 0);
 	signal regDST_F4_bus : STD_LOGIC_VECTOR(3 DOWNTO 0);
 	signal regDST_F5_bus : STD_LOGIC_VECTOR(3 DOWNTO 0);
-			
+	signal regDST_F5W_bus : STD_LOGIC_VECTOR(3 DOWNTO 0);	
+	
 	signal request_m_bus : STD_LOGIC := '0';
 	signal mem_ready : STD_LOGIC := '0' ;
 	signal memory_request_bus : STD_LOGIC := '0';
@@ -121,7 +123,7 @@ BEGIN
 			regDST_F3 => regDST_F3_bus,
 			regDST_F4 => regDST_F4_bus,
 			regDST_F5 => regDST_F5_bus,
-			
+			regDST_F5W => regDST_F5W_bus,
 			
 			request_m => request_m_bus
 			);
@@ -141,6 +143,7 @@ BEGIN
 			regDST_F3 => regDST_F3_bus,
 			regDST_F4 => regDST_F4_bus,
 			regDST_F5 => regDST_F5_bus,
+			regDST_F5W => regDST_F5W_bus,
 			
 			hit => request_m_bus,
 			request_m => mem_ready,

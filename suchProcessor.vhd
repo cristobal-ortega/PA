@@ -23,7 +23,7 @@ ENTITY suchProcessor IS
 				regDST_F3 : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
 				regDST_F4 : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
 				regDST_F5 : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-				
+				regDST_F5W : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
 				
 				request_m : OUT STD_LOGIC := '0'
 				
@@ -509,7 +509,8 @@ BEGIN
 	regDST_F2 <= rDST_F1F2_F2;
 	regDST_F3 <= rDST_F2F3_F3;
 	regDST_F4 <= rDST_F3F4_F4;
-	regDST_F5 <= rDST_F5W_W;
+	regDST_F5 <= rDST_F4F5_F5;
+	regDST_F5W <= rDST_F5W_W;
 			
 			
 	
