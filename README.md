@@ -20,3 +20,4 @@ Features:
 -Data hazards
 -Structural hazards
 -Maim memory implemented inside the top level
+-Stall all the processor/Fetch and Decode stages
