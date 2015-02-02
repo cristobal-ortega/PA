@@ -1,4 +1,4 @@
-PROCESSOR ARCHITECTURE  
+PA - PROCESSOR ARCHITECTURE   
 ==  
 
 FIB - MIRI 2015
@@ -15,10 +15,10 @@ Cristóbal Ortega
 Features:  
 - 5 Stages  
 - Instructions:  
-	-Arithmetic operations  
-	-Long operation (>7 cycles)  
-	-Load word/byte  
-	-BNZ  
+	- Arithmetic operations  
+	- Long operation (>7 cycles)  
+	- Load word/byte  
+	- BNZ  
 - Instruction/Data cache  
 - Data hazards  
 - Structural hazards  
